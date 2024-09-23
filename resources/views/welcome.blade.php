@@ -24,7 +24,7 @@
                             <img src="{{ asset('images/logo_community_links.png') }}" alt="Logo" class="w-16 h-auto sm:w-24 md:w-32 lg:w-40 mb-6">
                         </div>
                         <!-- Títulos Centrados -->
-                        <h1 class="text-3xl font-bold text-black dark:text-white mb-2">Welcome to ProyectoReddit</h1>
+                        <h1 class="text-3xl font-bold text-black dark:text-white mb-2">Welcome to Community Links</h1>
                         <p class="text-lg text-black/70 dark:text-white/70 mb-6">Share your links with a lot of people around the world</p>
                         
                         @if (Route::has('login'))
