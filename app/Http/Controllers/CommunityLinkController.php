@@ -13,7 +13,8 @@ class CommunityLinkController extends Controller
      */
     public function index()
     {
-        return view('dashboard');
+        $links = CommunityLink::paginate(25);
+        return view('dashboard',compact('links'));
     }
 
     /**
