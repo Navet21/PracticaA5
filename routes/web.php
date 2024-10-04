@@ -12,6 +12,10 @@ Route::get('/dashboard', [CommunityLinkController::class,'index'])
 ->middleware(['auth', 'verified'])
 ->name('dashboard');
 
+Route::post('/dashboard', [CommunityLinkController::class,'store'])
+->middleware(['auth', 'verified'])
+->name('dashboard');
+
 Route::get('/contact', function () {
     return view('contact');
 })->middleware(['auth', 'verified'])->name('contact');

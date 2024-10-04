@@ -7,18 +7,31 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    @foreach ($links as $link)
-                        <li>{{$link->title}}</li>
-                    @endforeach
-                    {{$links->links()}}
-                    <small>Contributed by: {{$link->creator->name}} {{$link->updated_at->diffForHumans()}}</small>
+            <div class="grid grid-cols-3 gap-6">
+                <!-- Caja para los links -->
+                <div class="col-span-2 bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6">
+                    <ul>
+                        @foreach ($links as $link)
+                            <li class="mb-4 p-4 border border-gray-300 dark:border-gray-700 rounded-lg">
+                                <div class="font-semibold text-lg">
+                                    {{$link->title}}
+                                </div>
+                                <small class="text-gray-600 dark:text-gray-400">
+                                    Contributed by: {{$link->creator->name}} 
+                                    {{$link->updated_at->diffForHumans()}}
+                                </small>
+                            </li>
+                        @endforeach
+                    </ul>
+                    <div class="mt-4">
+                        {{$links->links()}}
+                    </div>
                 </div>
-                <!-- El código lo que hace es recorrer un arrays de links, por cada link del array genere un li donde se pone cada titulo de cada link,
-                {{$links->links()}}) }} este ultimo código lo que hace es generar los enlaces de paginacion.
-                El código <small>Contributed by: {{$link->creator->name}} {{$link->updated_at->diffForHumans()}}</small>, lo que hace es: obtiene el nombre del creador del link y ademas pone el momento en el que se actualizó de una forma legible para los humanos
-                -->
+
+                <!-- Caja para el formulario -->
+                <div class="col-span-1 bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6 h-96">
+                    <x-community-add-link></x-community-add-link>
+                </div>
             </div>
         </div>
     </div>
