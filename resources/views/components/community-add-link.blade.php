@@ -6,7 +6,7 @@
             <label for="title" class="block text-white font-medium">Title:</label>
             <input type="text" id="title" name="title"
                 class="mt-1 block w-full rounded-md border-gray-600 bg-gray-700 text-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 @error('title') is-invalid @enderror"
-                placeholder="What is the title of your article?">
+                placeholder="What is the title of your article?" value="{{old('title')}}">
             @error('title')
                 <div class="bg-red-500 text-white mt-1 p-2 rounded">{{ $message }}</div>
             @enderror
@@ -16,10 +16,26 @@
             <label for="link" class="block text-white font-medium">Link:</label>
             <input type="text" id="link" name="link"
                 class="mt-1 block w-full rounded-md border-gray-600 bg-gray-700 text-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                placeholder="What is the URL?">
+                placeholder="What is the URL?" value="{{old('link')}}">
             @error('link')
                 <div class="bg-red-500 text-white mt-1 p-2 rounded">{{ $message }}</div>
             @enderror
+            <div class="mb-4">
+                <label for="Channel" class="block text-white font-medium">Channel:</label>
+                <select
+                    class="@error('channel_id') is-invalid @enderror mt-1 block w-full rounded-md border-gray-600 bg-gray-700 text-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                    name="channel_id">
+                    <option selected disabled>Pick a Channel...</option>
+                    @foreach ($channels as $channel)
+                        <option value="{{ $channel->id }}" {{ old('channel_id') == $channel->id ? 'selected' : '' }}>
+                            {{ $channel->title }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('channel_id')
+                    <span class="text-red-500 mt-2">{{ $message }}</span>
+                @enderror
+            </div>
         </div>
 
         <div class="pt-3">
@@ -29,11 +45,13 @@
     </form>
 </div>
 
-{{--  
+{{--
 
 1.¿Qué hace la directiva @crsf?
 
-La directiva @csrf en Laravel se utiliza para proteger las aplicaciones contra ataques de tipo Cross-Site Request Forgery (CSRF), que son un tipo de ataque en el que un atacante hace que un usuario autenticado realice una acción no deseada en una aplicación web.
+La directiva @csrf en Laravel se utiliza para proteger las aplicaciones contra ataques de tipo Cross-Site Request
+Forgery (CSRF), que son un tipo de ataque en el que un atacante hace que un usuario autenticado realice una acción no
+deseada en una aplicación web.
 
 ¿Qué método se llamará en el controlador CommunityController al enviar el formulario?
 
@@ -41,7 +59,8 @@ Se llamara al metodo store() para guardar la informacion en la base de datos
 
 Intenta enviar un enlace. ¿Qué ocurrse y cómo puedes resolver el problema?
 
-Pues da error porque la vista que esta configurada es con el metodo get y nos da el dashboard con el index de comunnity links, hay que hacer una vista con el metodo get y el metodo store() 
+Pues da error porque la vista que esta configurada es con el metodo get y nos da el dashboard con el index de comunnity
+links, hay que hacer una vista con el metodo get y el metodo store()
 
 
 

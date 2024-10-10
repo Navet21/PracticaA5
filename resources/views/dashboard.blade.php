@@ -17,9 +17,13 @@
                                     {{$link->title}}
                                 </div>
                                 <small class="text-gray-600 dark:text-gray-400">
-                                    Contributed by: {{$link->creator->name}} 
+                                    Contributed by: {{$link->creator->name}}
                                     {{$link->updated_at->diffForHumans()}}
                                 </small>
+                                <span class="inline-block px-2 py-1 text-white text-sm font-semibold rounded"
+                                    style="background-color: {{ $link->channel->color }}">
+                                    {{ $link->channel->title }}
+                                </span>
                             </li>
                         @endforeach
                     </ul>
@@ -29,8 +33,8 @@
                 </div>
 
                 <!-- Caja para el formulario -->
-                <div class="col-span-1 bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6 h-96">
-                    <x-community-add-link></x-community-add-link>
+                <div class="col-span-1 bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6 h-[450px]">
+                    <x-community-add-link :channels="$channels"></x-community-add-link>
                 </div>
             </div>
         </div>
