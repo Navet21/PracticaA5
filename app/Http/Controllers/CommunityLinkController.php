@@ -42,8 +42,14 @@ class CommunityLinkController extends Controller
             $link->user_id = Auth::id();
             $link->approved = Auth::user()->trusted ?? false;
             $link->save();
-            return back();
-    }
+            if(Auth::user()->trusted){
+                return back()->with('status',"Link shared!");
+            }
+            else{
+                return back()->with('status',"Link waiting for confirm!");
+            }
+            
+    }   
 
     /**
      * Display the specified resource.
