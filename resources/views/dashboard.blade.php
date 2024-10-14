@@ -10,7 +10,11 @@
             <div class="grid grid-cols-3 gap-6">
                 <!-- Caja para los links -->
                 <div class="col-span-2 bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6">
-                    <ul>
+                    @if($links->isEmpty())
+                        <p>No se encontraron links</p>
+                    
+                    @else
+                        <ul>
                         @foreach ($links as $link)
                             <li class="mb-4 p-4 border border-gray-300 dark:border-gray-700 rounded-lg">
                                 <div class="font-semibold text-lg">
@@ -30,8 +34,9 @@
                     <div class="mt-4">
                         {{$links->links()}}
                     </div>
+                    @endif
                 </div>
-
+                
                 <!-- Caja para el formulario -->
                 <div class="col-span-1 bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6 h-[450px]">
                     <x-community-add-link :channels="$channels"></x-community-add-link>
@@ -40,3 +45,4 @@
         </div>
     </div>
 </x-app-layout>
+

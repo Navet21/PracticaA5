@@ -14,7 +14,7 @@ class CommunityLinkController extends Controller
      */
     public function index()
     {
-        $links = CommunityLink::paginate(10);
+        $links = CommunityLink::where('approved',1)->paginate(25);
         $channels = Channel::orderBy('title','asc')->get();
         return view('dashboard',compact('links'),compact('channels'));
     }
@@ -40,6 +40,7 @@ class CommunityLinkController extends Controller
             $link = new CommunityLink($data);
             // Si uso CommunityLink::create($data) tengo que declarar user_id y channel_id como $fillable
             $link->user_id = Auth::id();
+            $link->approved = Auth::user()->trusted ?? false;
             $link->save();
             return back();
     }
@@ -76,3 +77,48 @@ class CommunityLinkController extends Controller
         //
     }
 }
+
+//Preguntas practica A10
+/*
+$channels = Channel::orderBy('title','asc')->get();
+Este código lo que hace es que consigue todos los channels , los ordena por titulo y los ordena de manera ascendente.
+
+<div class="mb-4">
+<label for="Channel" class="block text-white font-medium">Channel:</label>
+<select
+class="@error('channel_id') is-invalid @enderror mt-1 block w-full rounded-md border-gray-600 bg-gray-700 text-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+name="channel_id">
+<option selected disabled>Pick a Channel...</option>
+@foreach ($channels as $channel)
+<option value="{{ $channel->id }}">
+{{ $channel->title }}
+</option>
+@endforeach
+</select>
+@error('channel_id')
+<span class="text-red-500 mt-2">{{ $message }}</span>
+@enderror
+</div>
+
+Este código lo que hace es poner un desplegable seleccionable y con un for each los genera y pone el titulo del channel para seleccionar.
+
+<div class="mb-4">
+<label for="Channel" class="block text-white font-medium">Channel:</label>
+<select
+class="@error('channel_id') is-invalid @enderror mt-1 block w-full rounded-md border-gray-600 bg-gray-700 text-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+name="channel_id">
+<option selected disabled>Pick a Channel...</option>
+@foreach ($channels as $channel)
+<option value="{{ $channel->id }}">
+{{ $channel->title }}
+</option>
+@endforeach
+</select>
+@error('channel_id')
+<span class="text-red-500 mt-2">{{ $message }}</span>
+@enderror
+</div>
+
+Esta línea lo que hace es poner el valor anterior por si fallamos al meter un link y queremos mantener los valores del channel.
+
+*/
