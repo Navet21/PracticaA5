@@ -53,7 +53,7 @@ class CommunityLinkController extends Controller
      */
     public function show(CommunityLink $communityLink)
     {
-        //
+        
     }
 
     /**
@@ -78,6 +78,12 @@ class CommunityLinkController extends Controller
     public function destroy(CommunityLink $communityLink)
     {
         //
+    }
+
+    public function linksDeUsuarios(){
+        $user = Auth::user();
+        $links = $user->mylinks()->paginate(10);
+        return view('mylinks',compact('links'));
     }
 }
 

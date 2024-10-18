@@ -22,8 +22,8 @@
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('analytics')" :active="request()->routeIs('analytics')">
-                        {{ __('Analytics') }}
+                    <x-nav-link :href="route('mylinks')" :active="request()->routeIs('mylinks')">
+                        {{ __('My Links') }}
                     </x-nav-link>
                 </div>
             </div>

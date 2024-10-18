@@ -21,9 +21,9 @@ Route::get('/contact', function () {
     return view('contact');
 })->middleware(['auth', 'verified'])->name('contact');
 
-Route::get('/analytics', function () {
-    return view('analytics');
-})->middleware(['auth', 'verified'])->name('analytics');
+Route::get('/mylinks', [CommunityLinkController::class,'linksDeUsuarios'])
+->middleware(['auth', 'verified'])
+->name('mylinks');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
