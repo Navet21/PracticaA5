@@ -24,7 +24,7 @@ class CommunityLinkForm extends FormRequest
     {
         return [
             'title' => 'required|max:255',
-            'link' => 'required|unique:community_links|url|max:255',
+            'link' => 'required|url|max:255',
             'channel_id' => 'required|exists:channels,id',
         ];
     }

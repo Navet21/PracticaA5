@@ -15,7 +15,7 @@ class CommunityLinkController extends Controller
      */
     public function index()
     {
-        $links = CommunityLink::where('approved',1)->paginate(25);
+        $links = CommunityLink::where('approved',true)->latest('updated_at')->paginate(10);
         $channels = Channel::orderBy('title','asc')->get();
         return view('dashboard',compact('links'),compact('channels'));
     }
@@ -34,18 +34,23 @@ class CommunityLinkController extends Controller
     public function store(CommunityLinkForm $request)
     {
         $data = $request->validated();
-            $link = new CommunityLink($data);
+        $link = new CommunityLink($data); 
+        $enviado = $link->hasAlreadyBeenSubmitted();
+        if(!$enviado){
             // Si uso CommunityLink::create($data) tengo que declarar user_id y channel_id como $fillable
             $link->user_id = Auth::id();
             $link->approved = Auth::user()->trusted ?? false;
             $link->save();
             if(Auth::user()->trusted){
-                return back()->with('link',"Link shared!");
+                return back()->with('success',"Link shared!");
             }
             else{
                 return back()->with('info',"Link waiting for confirm!");
             }
-            
+        }
+        else{
+            return back();
+        }          
     }   
 
     /**
