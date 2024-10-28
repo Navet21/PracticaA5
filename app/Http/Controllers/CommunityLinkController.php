@@ -13,11 +13,19 @@ class CommunityLinkController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Channel $channel = null)
     {
-        $links = CommunityLink::where('approved',true)->latest('updated_at')->paginate(10);
-        $channels = Channel::orderBy('title','asc')->get();
-        return view('dashboard',compact('links'),compact('channels'));
+        if ($channel) {
+            //Filtrar los links por el canal
+            $links = $channel->communityLinks()->latest('updated_at')->paginate(10);
+            $channels = Channel::orderBy('title', 'asc')->get();
+            return view('dashboard', compact('links'), compact('channels'));
+        } else {
+            $links = CommunityLink::where('approved', true)->latest('updated_at')->paginate(10);
+            $channels = Channel::orderBy('title', 'asc')->get();
+            return view('dashboard', compact('links'), compact('channels'));
+        }
+
     }
 
     /**
@@ -34,32 +42,31 @@ class CommunityLinkController extends Controller
     public function store(CommunityLinkForm $request)
     {
         $data = $request->validated();
-        $link = new CommunityLink($data); 
+        $link = new CommunityLink($data);
         $enviado = $link->hasAlreadyBeenSubmitted();
-        if(!$enviado){
+        if (!$enviado) {
             // Si uso CommunityLink::create($data) tengo que declarar user_id y channel_id como $fillable
             $link->user_id = Auth::id();
             $link->approved = Auth::user()->trusted ?? false;
             $link->save();
-            return Auth::user()->trusted ? back()->with('success',"Link shared!") : back()->with('info',"Link waiting for confirm!");
+            return Auth::user()->trusted ? back()->with('success', "Link shared!") : back()->with('info', "Link waiting for confirm!");
             // if(Auth::user()->trusted){
             //     return back()->with('success',"Link shared!");
             // }
             // else{
             //     return back()->with('info',"Link waiting for confirm!");
             // }
-        }
-        else{
+        } else {
             return back();
-        }          
-    }   
+        }
+    }
 
     /**
      * Display the specified resource.
      */
     public function show(CommunityLink $communityLink)
     {
-        
+
     }
 
     /**
@@ -86,10 +93,11 @@ class CommunityLinkController extends Controller
         //
     }
 
-    public function linksDeUsuarios(){
+    public function linksDeUsuarios()
+    {
         $user = Auth::user();
         $links = $user->mylinks()->paginate(10);
-        return view('mylinks',compact('links'));
+        return view('mylinks', compact('links'));
     }
 }
 
