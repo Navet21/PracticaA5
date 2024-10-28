@@ -21,6 +21,12 @@
                             {{ $link->channel->title }}
                         </span>
                     </a>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-gray-700 font-semibold">Votos:</span>
+                        <span class="bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                            {{$link->users()->count()}}
+                        </span>
+                    </div>
                 </li>
             @endforeach
         </ul>
