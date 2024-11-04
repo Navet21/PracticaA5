@@ -47,7 +47,8 @@
             @endforeach
         </ul>
         <div class="mt-4">
-            {{$links->links()}}
+            {{$links->appends($_GET)->links()}}
+            <!-- El append añade la variable que coja de la url para seguir ordenando por popularidad en este caso, la añadira al final de la url cuando se pagine -->
         </div>
     @endif
 </div>

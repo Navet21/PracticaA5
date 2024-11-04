@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\CommunityLink;
 use Illuminate\Http\Request;
 use App\Models\Channel;
+use App\Queries\CommunityLinkQuery;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 class CommunityLinkController extends Controller
@@ -15,17 +16,21 @@ class CommunityLinkController extends Controller
      */
     public function index(Channel $channel = null)
     {
-        if ($channel) {
-            //Filtrar los links por el canal
-            $links = $channel->communityLinks()->where('approved',true)->latest('updated_at')->paginate(10);
-            $channels = Channel::orderBy('title', 'asc')->get();
-            return view('dashboard', compact('links'), compact('channels'));
-        } else {
-            $links = CommunityLink::where('approved', true)->latest('updated_at')->paginate(10);
-            $channels = Channel::orderBy('title', 'asc')->get();
-            return view('dashboard', compact('links'), compact('channels'));
+        if($channel && request()->exists('popular') ){
+            $links = (new CommunityLinkQuery())->getMostPopularByChannel($channel);
         }
-
+        else if($channel){
+            $links = (new CommunityLinkQuery())->getByChannel($channel);
+        }
+        else if (request()->exists('popular')) {
+            $links = (new CommunityLinkQuery())->getMostPopular();
+        }
+        else {
+            $links = (new CommunityLinkQuery())->getAll(); 
+        }
+        $channels = Channel::orderBy('title', 'asc')->get();
+        return view('dashboard', compact('links'), compact('channels'));
+        
     }
 
     /**
