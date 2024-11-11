@@ -16,6 +16,8 @@ class CommunityLinkController extends Controller
      */
     public function index(Channel $channel = null)
     {
+        $term = request()->get('busqueda');
+
         if($channel && request()->exists('popular') ){
             $links = (new CommunityLinkQuery())->getMostPopularByChannel($channel);
         }
@@ -24,6 +26,10 @@ class CommunityLinkController extends Controller
         }
         else if (request()->exists('popular')) {
             $links = (new CommunityLinkQuery())->getMostPopular();
+        }
+        else if($term){
+            // El metodo request()->get(palabraclave) me recoje el valor de la palabra clave que le paso por el input, tiene que tener el mismo nombre en la variable name
+            $links = (new CommunityLinkQuery())->getLinksLikeTittle($term);
         }
         else {
             $links = (new CommunityLinkQuery())->getAll(); 

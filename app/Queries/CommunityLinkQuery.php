@@ -32,4 +32,9 @@ class CommunityLinkQuery
 
     }
 
+    public function getLinksLikeTittle(String $busqueda){
+        // Comillas dobles para hacer echo de la variable
+        $links = CommunityLink::where('approved',true)->whereAny(['title','link'], 'LIKE', "%{$busqueda}%")->paginate(10);
+        return $links;
+    }
 }
