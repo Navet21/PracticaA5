@@ -3,6 +3,7 @@ use App\Http\Controllers\CommunityLinkUserController;
 use App\Http\Controllers\CommunityLinkController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -36,5 +37,9 @@ Route::middleware('auth')->group(function () {
 Route::get('/linkstorage',function(){
     Artisan::call('storage:link');
 });
+
+//Crud
+Route::resource('users', UserController::class)
+    ->middleware(['auth', 'verified']);
 
 require __DIR__.'/auth.php';
