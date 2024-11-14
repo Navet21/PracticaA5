@@ -2,6 +2,7 @@
 use App\Http\Controllers\CommunityLinkUserController;
 use App\Http\Controllers\CommunityLinkController;
 use App\Http\Controllers\ProfileController;
+use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 
@@ -40,6 +41,6 @@ Route::get('/linkstorage',function(){
 
 //Crud
 Route::resource('users', UserController::class)
-    ->middleware(['auth', 'verified']);
+    ->middleware('can:administrate,App\Models\User');
 
 require __DIR__.'/auth.php';
