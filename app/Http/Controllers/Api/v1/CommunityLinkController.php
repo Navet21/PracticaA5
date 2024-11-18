@@ -61,10 +61,10 @@ class CommunityLinkController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(CommunityLink $communityLink)
+    public function show(CommunityLink $communitylink)
     {
-        if($communityLink){
-            return response()->json($communityLink,200);
+        if($communitylink){
+            return response()->json($communitylink,200);
         }
         else{
             return response("Link no encontrado");
@@ -82,8 +82,9 @@ class CommunityLinkController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CommunityLink $communityLink)
+    public function destroy(CommunityLink $communitylink)
     {
-        //
+        $communitylink->delete();
+        return response()->json(['message' => 'Link eliminado'],200);
     }
 }
